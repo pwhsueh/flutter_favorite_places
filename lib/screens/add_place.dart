@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:favorite_places/models/place.dart';
 import 'package:favorite_places/providers/user_place.dart';
 import 'package:favorite_places/widgets/location_input.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class _AddPlaceState extends ConsumerState<AddPlaceScreen> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   File? _selectedImage;
+  PlaceLocation? _pickedLocation;
 
   @override
   void dispose() {
@@ -26,10 +28,12 @@ class _AddPlaceState extends ConsumerState<AddPlaceScreen> {
   }
 
   void _savePlace() {
-    if (_formKey.currentState!.validate() && _selectedImage != null) {
+    if (_formKey.currentState!.validate() &&
+        _selectedImage != null &&
+        _pickedLocation != null) {
       ref
           .read(userPlaceProvider.notifier)
-          .addPlace(_titleController.text, _selectedImage!);
+          .addPlace(_titleController.text, _selectedImage!, _pickedLocation!);
       Navigator.of(context).pop();
     }
   }
@@ -67,7 +71,9 @@ class _AddPlaceState extends ConsumerState<AddPlaceScreen> {
                 },
               ),
               const SizedBox(height: 10),
-              LocationInput(),
+              LocationInput((placeLocation) {
+                _pickedLocation = placeLocation;
+              }),
               const SizedBox(height: 16),
               ElevatedButton.icon(
                   icon: const Icon(Icons.add),

@@ -32,6 +32,12 @@ class PlaceList extends StatelessWidget {
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     color: Theme.of(context).colorScheme.onBackground,
                   )),
+          subtitle: places[index].location.address == null
+              ? null
+              : Text(places[index].location.address!,
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: Theme.of(context).colorScheme.onBackground,
+                      )),
         );
       },
     );

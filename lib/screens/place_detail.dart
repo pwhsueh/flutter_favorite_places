@@ -6,6 +6,12 @@ class PlaceDetailScreen extends StatelessWidget {
 
   final Place place;
 
+  String get locationImage {
+    final lng = place.location.longitude;
+    final lat = place.location!.latitude;
+    return 'https://maps.googleapis.com/maps/api/staticmap?center=$lat,$lng&zoom=13&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C$lat,$lng&key=AIzaSyDMlpzAL_UU0ewjCfBRI3FFG-_E0b8Sh8Y';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,16 +30,35 @@ class PlaceDetailScreen extends StatelessWidget {
               bottom: 0,
               left: 0,
               right: 0,
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                color: Colors.black54,
-                child: Text(
-                  place.title,
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        color: Colors.white,
-                      ),
+              child: Column(children: [
+                CircleAvatar(
+                  radius: 70,
+                  backgroundImage: NetworkImage(locationImage),
                 ),
-              ),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(colors: [
+                      Colors.transparent,
+                      Colors.black54,
+                    ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+
+                    // borderRadius: BorderRadius.only(
+                    //   topLeft: Radius.circular(16),
+                    //   topRight: Radius.circular(16),
+                    // ),
+                  ),
+                  width: double.infinity,
+                  color: Colors.black54,
+                  child: Text(
+                    place.location.address!,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        color: Theme.of(context).colorScheme.onBackground),
+                  ),
+                )
+              ]),
             )
           ],
         ));
