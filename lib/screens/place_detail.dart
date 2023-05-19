@@ -50,7 +50,6 @@ class PlaceDetailScreen extends StatelessWidget {
                     // ),
                   ),
                   width: double.infinity,
-                  color: Colors.black54,
                   child: Text(
                     place.location.address!,
                     textAlign: TextAlign.center,
